@@ -1,0 +1,252 @@
+/* BlogDetail.css */
+.blog-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .blog-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color, #4b5563);
+    transition: color 0.2s ease;
+  }
+  
+  .back-button:hover {
+    color: var(--primary-color, #4f46e5);
+  }
+  
+  .blog-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .edit-button, .delete-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+  
+  .edit-button {
+    background-color: var(--background-alt-color, #f3f4f6);
+    color: var(--foreground-color, #333);
+    border: 1px solid var(--border-color, #e5e7eb);
+  }
+  
+  .edit-button:hover {
+    background-color: var(--background-alt-hover-color, #e5e7eb);
+  }
+  
+  .delete-button {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fee2e2;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #fee2e2;
+  }
+  
+  /* Blog Article */
+  .blog-article {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .blog-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--foreground-color, #1f2937);
+    line-height: 1.2;
+  }
+  
+  .blog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--muted-color, #6b7280);
+    margin-bottom: 1.5rem;
+  }
+  
+  .blog-date, .blog-category, .blog-updated {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  
+  .blog-cover {
+    margin: -2rem -2rem 2rem;
+  }
+  
+  .blog-cover img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+  }
+  
+  .blog-excerpt {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--text-color, #4b5563);
+    padding: 1rem;
+    background-color: var(--background-alt-color, #f3f4f6);
+    border-left: 4px solid var(--primary-color, #4f46e5);
+    border-radius: 0 0.5rem 0.5rem 0;
+    margin-bottom: 2rem;
+  }
+  
+  .blog-content {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--text-color, #374151);
+  }
+  
+  .blog-content p {
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Delete Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .delete-modal {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .delete-modal h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--foreground-color, #1f2937);
+  }
+  
+  .delete-modal p {
+    margin-bottom: 0.75rem;
+    color: var(--text-color, #4b5563);
+  }
+  
+  .warning {
+    color: #dc2626;
+    font-weight: 600;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .cancel-button, .confirm-delete-button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .cancel-button {
+    background-color: var(--background-alt-color, #f3f4f6);
+    color: var(--foreground-color, #333);
+    border: 1px solid var(--border-color, #e5e7eb);
+  }
+  
+  .cancel-button:hover {
+    background-color: var(--background-alt-hover-color, #e5e7eb);
+  }
+  
+  .confirm-delete-button {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+  }
+  
+  .confirm-delete-button:hover {
+    background-color: #b91c1c;
+  }
+  
+  /* Loading & Not Found */
+  .blog-detail-loading,
+  .blog-not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .blog-detail-loading {
+    color: var(--primary-color, #4f46e5);
+  }
+  
+  .blog-detail-loading i,
+  .blog-not-found i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .blog-not-found i {
+    color: #f59e0b;
+  }
+  
+  .blog-not-found h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--foreground-color, #333);
+  }
+  
+  .blog-not-found p {
+    color: var(--muted-color, #6b7280);
+    margin-bottom: 1.5rem;
+  }
+  
+  .back-to-blog {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--primary-color, #4f46e5);
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .back-to-blog:hover {
+    background-color: var(--primary-dark-color, #4338ca);
+  }

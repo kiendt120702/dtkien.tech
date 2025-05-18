@@ -1,0 +1,75 @@
+.folder-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .folder-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .folder-image {
+    height: 180px;
+    background-color: var(--light-pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    overflow: hidden;
+  }
+  
+  .folder-icon {
+    font-size: 54px;
+    color: var(--pink);
+    transition: var(--transition);
+  }
+  
+  .folder-card:hover .folder-icon {
+    transform: scale(1.1);
+  }
+  
+  .folder-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .folder-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--gray);
+  }
+  
+  .folder-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    flex-grow: 1;
+  }
+  
+  .folder-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pink);
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+  }
+  
+  .folder-link svg {
+    margin-left: 6px;
+    transition: var(--transition);
+  }
+  
+  .folder-card:hover .folder-link svg {
+    transform: translateX(5px);
+  }
