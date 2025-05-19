@@ -7,7 +7,9 @@ import {
   faChartBar, 
   faChartPie, 
   faExclamationCircle, 
-  faTimes 
+  faTimes,
+  faArrowUp,
+  faAngleUp
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import './AverageShopee.css';
@@ -34,6 +36,8 @@ const AverageShopee = () => {
       percent1: 0
     }
   });
+  const [targetRating, setTargetRating] = useState('');
+  const [neededRatings, setNeededRatings] = useState(null);
 
   // Refs
   const resultSectionRef = useRef(null);
@@ -42,7 +46,8 @@ const AverageShopee = () => {
     star4: useRef(null),
     star3: useRef(null),
     star2: useRef(null),
-    star1: useRef(null)
+    star1: useRef(null),
+    targetRating: useRef(null)
   };
 
   // Use effect to focus on first input when component mounts
@@ -59,6 +64,23 @@ const AverageShopee = () => {
       ...prev,
       [id]: value === '' ? 0 : parseInt(value)
     }));
+  };
+
+  // Handle target rating change
+  const handleTargetRatingChange = (e) => {
+    const value = e.target.value;
+    
+    // Allow any input that could potentially form a valid floating point number
+    // This regex allows:
+    // - digits (0-9)
+    // - a single decimal point
+    // - prevents more than one decimal point
+    if (value === '' || /^[0-9]+\.?[0-9]*$/.test(value)) {
+      // Only update state if the value is <= 5
+      if (value === '' || parseFloat(value) <= 5) {
+        setTargetRating(value);
+      }
+    }
   };
 
   // Handle keydown - make Enter work like Tab
@@ -84,6 +106,48 @@ const AverageShopee = () => {
     setTimeout(() => {
       setToast({ show: false, message: '' });
     }, 3000);
+  };
+
+  // Calculate how many 5-star ratings are needed to achieve target rating
+  const calculateNeededRatings = () => {
+    if (!targetRating || parseFloat(targetRating) <= results.averageRating) {
+      setNeededRatings(null);
+      return;
+    }
+
+    // Current values
+    const { star5, star4, star3, star2, star1 } = ratings;
+    const currentTotalReviews = star5 + star4 + star3 + star2 + star1;
+    const currentTotalPoints = (star5 * 5) + (star4 * 4) + (star3 * 3) + (star2 * 2) + (star1 * 1);
+
+    // Target calculation
+    const targetRatingValue = parseFloat(targetRating);
+    
+    // Special case for target of exactly 5.0
+    if (targetRatingValue >= 4.95) {
+      // If we want to display 5.0 (which is often shown rounded up from 4.95+)
+      // Calculate how many 5-star ratings are needed to reach 4.95
+      const needed = Math.ceil(
+        (4.95 * currentTotalReviews - currentTotalPoints) / (5 - 4.95)
+      );
+      
+      setNeededRatings(needed > 0 ? needed : null);
+      return;
+    }
+    
+    // Let x be the number of 5-star reviews we need to add
+    // (currentTotalPoints + 5x) / (currentTotalReviews + x) = targetRatingValue
+    // currentTotalPoints + 5x = targetRatingValue * (currentTotalReviews + x)
+    // currentTotalPoints + 5x = targetRatingValue * currentTotalReviews + targetRatingValue * x
+    // 5x - targetRatingValue * x = targetRatingValue * currentTotalReviews - currentTotalPoints
+    // x(5 - targetRatingValue) = targetRatingValue * currentTotalReviews - currentTotalPoints
+    // x = (targetRatingValue * currentTotalReviews - currentTotalPoints) / (5 - targetRatingValue)
+
+    const needed = Math.ceil(
+      (targetRatingValue * currentTotalReviews - currentTotalPoints) / (5 - targetRatingValue)
+    );
+
+    setNeededRatings(needed > 0 ? needed : null);
   };
 
   // Calculate rating function
@@ -124,6 +188,11 @@ const AverageShopee = () => {
     
     // Show results
     setShowResults(true);
+    
+    // If there's a target rating, calculate needed ratings
+    if (targetRating) {
+      calculateNeededRatings();
+    }
     
     // Scroll to results after a short delay to allow state update
     setTimeout(() => {
@@ -274,6 +343,29 @@ const AverageShopee = () => {
                     />
                   </div>
                 </div>
+
+                {/* Target Rating Input */}
+                <div className="rating-card target-rating-card">
+                  <div className="rating-info">
+                    <div className="target-label">
+                      <FontAwesomeIcon icon={faAngleUp} className="target-icon" />
+                      <span>Mục tiêu</span>
+                    </div>
+                  </div>
+                  <div className="input-container">
+                    <input 
+                      type="number" 
+                      id="targetRating"
+                      ref={inputRefs.targetRating}
+                      placeholder="4.7"
+                      value={targetRating}
+                      onChange={handleTargetRatingChange}
+                      step="0.1"
+                      min="0"
+                      max="5"
+                    />
+                  </div>
+                </div>
               </div>
               
               {/* Calculate button */}
@@ -329,6 +421,19 @@ const AverageShopee = () => {
                     </div>
                   </div>
                 </div>
+
+                {neededRatings && (
+                  <div className="target-rating-info">
+                    <div className="needed-ratings-card">
+                      <div className="needed-ratings-icon">
+                        <FontAwesomeIcon icon={faArrowUp} />
+                      </div>
+                      <div className="needed-ratings-text">
+                        Cần <span className="highlight">{isFinite(neededRatings) ? neededRatings : "nhiều"}</span> đánh giá 5 sao để lên <span className="highlight">{parseFloat(targetRating) >= 4.95 ? "5" : targetRating}</span> sao
+                      </div>
+                    </div>
+                  </div>
+                )}
                 
                 {/* Rating distribution */}
                 <div className="rating-distribution">
